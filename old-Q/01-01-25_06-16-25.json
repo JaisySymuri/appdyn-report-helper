@@ -1,0 +1,66 @@
+[
+  {
+    "appName": "20-Activemq",
+    "calls": "26"
+  },
+  {
+    "appName": "AppOtel-java",
+    "calls": "14"
+  },
+  {
+    "appName": "HANDAL-Activemq",
+    "calls": "351"
+  },
+  {
+    "appName": "Jbose-Fuse-Tanuki",
+    "calls": "0"
+  },
+  {
+    "appName": "KafkaApp",
+    "calls": "0"
+  },
+  {
+    "appName": "Minihack-2025",
+    "calls": "67"
+  },
+  {
+    "appName": "PERURI-INTEGRATIONSERVER",
+    "calls": "1"
+  },
+  {
+    "appName": "Smart2",
+    "calls": "0"
+  },
+  {
+    "appName": "SNM-Activemq",
+    "calls": "85"
+  },
+  {
+    "appName": "SNM-Jboss",
+    "calls": "29"
+  },
+  {
+    "appName": "SNM-JBOSSFUSE",
+    "calls": "0"
+  },
+  {
+    "appName": "SNM-Joget",
+    "calls": "0"
+  },
+  {
+    "appName": "SNM-KAFKA172",
+    "calls": "0"
+  },
+  {
+    "appName": "Supercar-Trader",
+    "calls": "8"
+  },
+  {
+    "appName": "Uwws",
+    "calls": "0"
+  },
+  {
+    "appName": "Zookeeeeepeeeeer",
+    "calls": "0"
+  }
+]
