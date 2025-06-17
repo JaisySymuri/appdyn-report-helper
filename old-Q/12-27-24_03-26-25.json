@@ -1,0 +1,218 @@
+[
+  {
+    "appName": "API-Factory",
+    "calls": "0"
+  },
+  {
+    "appName": "APIM",
+    "calls": "0"
+  },
+  {
+    "appName": "APIM-HCM",
+    "calls": "0"
+  },
+  {
+    "appName": "APIM-TECH",
+    "calls": "0"
+  },
+  {
+    "appName": "CROCS",
+    "calls": "24.22k"
+  },
+  {
+    "appName": "Diarium",
+    "calls": "0"
+  },
+  {
+    "appName": "EA-SURROUNDING-DEV",
+    "calls": "4.84m"
+  },
+  {
+    "appName": "EAI Diarium",
+    "calls": "6.98m"
+  },
+  {
+    "appName": "EAI-SAMSNAS",
+    "calls": "96.47m"
+  },
+  {
+    "appName": "EAI-SURROUNDING",
+    "calls": "12.63m"
+  },
+  {
+    "appName": "fcc",
+    "calls": "0.1m"
+  },
+  {
+    "appName": "Frames",
+    "calls": "0.13m"
+  },
+  {
+    "appName": "idmt",
+    "calls": "4.84m"
+  },
+  {
+    "appName": "iHLD-Development",
+    "calls": "0"
+  },
+  {
+    "appName": "iHLD-Production",
+    "calls": "6.48m"
+  },
+  {
+    "appName": "indri",
+    "calls": "9.98k"
+  },
+  {
+    "appName": "Ingenium",
+    "calls": "0"
+  },
+  {
+    "appName": "IPCA-DEV",
+    "calls": "0"
+  },
+  {
+    "appName": "IPCA-PROD",
+    "calls": "0.3m"
+  },
+  {
+    "appName": "mia",
+    "calls": "10.63m"
+  },
+  {
+    "appName": "Myaxel",
+    "calls": "2.69m"
+  },
+  {
+    "appName": "mycx",
+    "calls": "62.88m"
+  },
+  {
+    "appName": "MyDITA",
+    "calls": "6.39m"
+  },
+  {
+    "appName": "myIndiHome",
+    "calls": "3.14m"
+  },
+  {
+    "appName": "myIndiHomeX",
+    "calls": "0.12b"
+  },
+  {
+    "appName": "MyIndiHomeX-DEV",
+    "calls": "0"
+  },
+  {
+    "appName": "myIndiHomeX-sit",
+    "calls": "0"
+  },
+  {
+    "appName": "Mytech",
+    "calls": "29.18m"
+  },
+  {
+    "appName": "NDE-PROD",
+    "calls": "25.24m"
+  },
+  {
+    "appName": "New EAI",
+    "calls": "22.94m"
+  },
+  {
+    "appName": "New-APIM",
+    "calls": "0.72b"
+  },
+  {
+    "appName": "New-APIM HCM",
+    "calls": "0.12b"
+  },
+  {
+    "appName": "New-APIM TECH",
+    "calls": "0.14b"
+  },
+  {
+    "appName": "New-APIM-ST",
+    "calls": "0"
+  },
+  {
+    "appName": "OLTest-Exam",
+    "calls": "0.84m"
+  },
+  {
+    "appName": "OLTest-Exam1",
+    "calls": "1.74m"
+  },
+  {
+    "appName": "OLTest-Exam2",
+    "calls": "1.72m"
+  },
+  {
+    "appName": "Pefita",
+    "calls": "2.2m"
+  },
+  {
+    "appName": "pefita-dev",
+    "calls": "0"
+  },
+  {
+    "appName": "RekrutmenBUMN",
+    "calls": "0"
+  },
+  {
+    "appName": "SCC",
+    "calls": "25.58m"
+  },
+  {
+    "appName": "SCCD",
+    "calls": "1.62m"
+  },
+  {
+    "appName": "SIT-MIHX",
+    "calls": "0"
+  },
+  {
+    "appName": "SPPD-Online",
+    "calls": "0"
+  },
+  {
+    "appName": "Starclick-NCX",
+    "calls": "21.66m"
+  },
+  {
+    "appName": "TOS",
+    "calls": "2.35m"
+  },
+  {
+    "appName": "Transformer",
+    "calls": "1.56m"
+  },
+  {
+    "appName": "transformer-shadow",
+    "calls": "0"
+  },
+  {
+    "appName": "Umail",
+    "calls": "0"
+  },
+  {
+    "appName": "ut-online",
+    "calls": "0.27b"
+  },
+  {
+    "appName": "ut-online-ebis",
+    "calls": "9.99m"
+  },
+  {
+    "appName": "WebSelfcare",
+    "calls": "11.13k"
+  },
+  {
+    "appName": "WebSelfcare-Dev",
+    "calls": "0"
+  },
+  {
+    "appName": "wpi",
+    "calls": "3.83m"
+  }
+]

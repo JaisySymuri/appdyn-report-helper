@@ -62,11 +62,18 @@
     const button = document.createElement('button');
     button.textContent = 'Download App Info as JSON';
 
-    // Bottom-left styling
+    // Count existing buttons with the shared class for stacking
+    const existingButtons = document.querySelectorAll(
+      '.tm-bottom-left-btn'
+    ).length;
+    const buttonOffset = existingButtons * 50 + 10;
+
+    button.className = 'tm-bottom-left-btn';
     button.style.position = 'fixed';
-    button.style.bottom = '15px';
-    button.style.left = '15px';
+    button.style.bottom = `${buttonOffset}px`;
+    button.style.left = '10px';
     button.style.zIndex = '9999';
+
     button.style.padding = '10px 15px';
     button.style.backgroundColor = '#007bff';
     button.style.color = 'white';
