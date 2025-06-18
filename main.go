@@ -1,182 +1,18 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
-	"path/filepath"
-	"sort"
-	"strconv"
-	"strings"
+	"report-compare/util"
 )
 
-type AppData struct {
-	AppName string `json:"appName"`
-	Calls   string `json:"calls"`
-}
-
-type DBData struct {
-	DBName     string `json:"dbName"`
-	Executions string `json:"executions"`
-}
-
-type UnifiedData struct {
-	Name  string
-	Count int
-}
-
-func readUnifiedJSONFileFromDir(dir string) ([]UnifiedData, string, error) {
-	files, err := os.ReadDir(dir)
-	if err != nil {
-		return nil, "", err
-	}
-	if len(files) != 1 {
-		return nil, "", fmt.Errorf("directory %s must contain exactly one JSON file", dir)
-	}
-
-	filePath := filepath.Join(dir, files[0].Name())
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, "", err
-	}
-
-	var apps []AppData
-	if err := json.Unmarshal(data, &apps); err == nil && len(apps) > 0 && apps[0].AppName != "" {
-		return convertAppData(apps), "Application", nil
-	}
-
-	var dbs []DBData
-	if err := json.Unmarshal(data, &dbs); err == nil && len(dbs) > 0 && dbs[0].DBName != "" {
-		return convertDBData(dbs), "Database", nil
-	}
-
-	return nil, "", fmt.Errorf("unknown JSON format in %s", filePath)
-}
-
-func parseNumberWithSuffix(s string) int {
-	s = strings.ToLower(strings.TrimSpace(s))
-	multiplier := 1.0
-
-	switch {
-	case strings.HasSuffix(s, "k"):
-		multiplier = 1e3
-		s = strings.TrimSuffix(s, "k")
-	case strings.HasSuffix(s, "m"):
-		multiplier = 1e6
-		s = strings.TrimSuffix(s, "m")
-	case strings.HasSuffix(s, "b"):
-		multiplier = 1e9
-		s = strings.TrimSuffix(s, "b")
-	}
-
-	val, err := strconv.ParseFloat(s, 64)
-	if err != nil {
-		return 0
-	}
-	return int(val * multiplier)
-}
-
-func convertAppData(apps []AppData) []UnifiedData {
-	var result []UnifiedData
-	for _, a := range apps {
-		count := parseNumberWithSuffix(a.Calls)
-		result = append(result, UnifiedData{Name: a.AppName, Count: count})
-	}
-	return result
-}
-
-func convertDBData(dbs []DBData) []UnifiedData {
-	var result []UnifiedData
-	for _, d := range dbs {
-		count := parseNumberWithSuffix(d.Executions)
-		result = append(result, UnifiedData{Name: d.DBName, Count: count})
-	}
-	return result
-}
-
-func mapUnified(data []UnifiedData) map[string]int {
-	result := make(map[string]int)
-	for _, item := range data {
-		result[item.Name] = item.Count
-	}
-	return result
-}
-
-func printCategory(title string, list []string) {
-	sort.Strings(list)
-	fmt.Printf("\n%s (%d):\n", title, len(list))
-	if len(list) == 0 {
-		fmt.Println(" - None")
-	} else {
-		for _, name := range list {
-			fmt.Println(" -", name)
-		}
-	}
-}
-
-func generateDeleteInstructions(oldActive, newDisabled, deleted []string) {
-	fmt.Println("\n🧽 Report Cleanup Instructions (Remove from old report):")
-
-	// Combine and sort the targets
-	toDelete := append([]string{}, newDisabled...)
-	toDelete = append(toDelete, deleted...)
-	sort.Strings(toDelete)
-
-	if len(toDelete) == 0 {
-		fmt.Println("Nothing needs to be removed from the old report.")
-		return
-	}
-
-	fmt.Printf("Delete %d item(s) from old report:\n", len(toDelete))
-	for _, name := range toDelete {
-		// Find index in oldActive
-		index := indexOf(name, oldActive)
-		if index != -1 {
-			fmt.Printf("- #%d: %s\n", index+1, name)
-		} else {
-			fmt.Printf("- (not found in Old Active list): %s\n", name)
-		}
-	}
-}
-
-func generateAddInstructions(nowActive, totalNew []string) {
-	fmt.Println("\n✍️ Report Update Instructions (Add to new report):")
-
-	if len(totalNew) == 0 {
-		fmt.Println("No new or re-enabled apps to add.")
-		return
-	}
-
-	fmt.Printf("Add %d item(s) to new report:\n", len(totalNew))
-	sort.Strings(totalNew)
-	for _, name := range totalNew {
-		index := indexOf(name, nowActive)
-		if index != -1 {
-			fmt.Printf("- #%d: %s\n", index+1, name)
-		} else {
-			fmt.Printf("- (not found in Now Active list): %s\n", name)
-		}
-	}
-}
-
-func indexOf(target string, list []string) int {
-	for i, v := range list {
-		if v == target {
-			return i
-		}
-	}
-	return -1
-}
-
-
 func main() {
-	oldData, kindOld, err := readUnifiedJSONFileFromDir("old-Q")
+	oldData, kindOld, err := util.ReadUnifiedJSONFileFromDir("old-Q")
 	if err != nil {
 		fmt.Println("❌ Error reading old-Q:", err)
 		return
 	}
 
-	nowData, kindNow, err := readUnifiedJSONFileFromDir("now-Q")
+	nowData, kindNow, err := util.ReadUnifiedJSONFileFromDir("now-Q")
 	if err != nil {
 		fmt.Println("❌ Error reading now-Q:", err)
 		return
@@ -187,102 +23,11 @@ func main() {
 		return
 	}
 
-	oldMap := mapUnified(oldData)
-	nowMap := mapUnified(nowData)
+	results := util.CompareReports(oldData, nowData)
 
-	var (
-		newDisabled   []string
-		stillDisabled []string
-		reenabled     []string
-		unchanged     []string
-		deleted       []string
-		newItems      []string
-	)
+	util.PrintComparisonResults(kindOld, oldData, nowData, results)
 
-	for name, oldVal := range oldMap {
-		nowVal, found := nowMap[name]
-		switch {
-		case !found:
-			deleted = append(deleted, name)
-		case oldVal > 0 && nowVal == 0:
-			newDisabled = append(newDisabled, name)
-		case oldVal == 0 && nowVal == 0:
-			stillDisabled = append(stillDisabled, name)
-		case oldVal == 0 && nowVal > 0:
-			reenabled = append(reenabled, name)
-		case oldVal > 0 && nowVal > 0:
-			unchanged = append(unchanged, name)
-		}
-	}
-
-	for name := range nowMap {
-		if _, found := oldMap[name]; !found {
-			newItems = append(newItems, name)
-		}
-	}
-
-	fmt.Printf("🔍 Comparing type: %s\n", kindOld)
-	fmt.Printf("📦 Total in old-Q: %d\n", len(oldData))
-	fmt.Printf("📦 Total in now-Q: %d\n", len(nowData))
-
-	printCategory("📉 New Disabled (was active, now 0)", newDisabled)
-	printCategory("📴 Still Disabled (was 0, remains 0)", stillDisabled)
-	printCategory("✅ Re-enabled (was 0, now active)", reenabled)
-	printCategory("🔄 Unchanged (still active)", unchanged)
-	printCategory("🗑️ Deleted (gone now)", deleted)
-	printCategory("🆕 New (not in old)", newItems)
-
-	// 👉 Conclusion calculation
-	totalNew := append([]string{}, newItems...)
-	totalNew = append(totalNew, reenabled...)
-
-	totalDisabled := append([]string{}, newDisabled...)
-	totalDisabled = append(totalDisabled, stillDisabled...)
-	totalDisabled = append(totalDisabled, deleted...)
-
-	// Print conclusion
-	fmt.Println("\n📊 Conclusion")
-
-	sort.Strings(unchanged)
-	sort.Strings(totalNew)
-	sort.Strings(totalDisabled)
-
-	fmt.Printf("\n✅ Existing (unchanged) (%d):\n", len(unchanged))
-	for _, name := range unchanged {
-		fmt.Println(name)
-	}
-
-	fmt.Printf("\n🆕 Total New (new + re-enabled) (%d):\n", len(totalNew))
-	for _, name := range totalNew {
-		fmt.Println(name)
-	}
-
-	fmt.Printf("\n📴 Total Disabled (new disabled + still disabled + deleted) (%d):\n", len(totalDisabled))
-	for _, name := range totalDisabled {
-		fmt.Println(name)
-	}
-
-	// 🆕 Print numbered Now Active list
-	fmt.Println("\n📌 Now Active (Existing + Total New):")
-	nowActive := append([]string{}, unchanged...)
-	nowActive = append(nowActive, totalNew...)
-	sort.Strings(nowActive)
-
-	for i, name := range nowActive {
-		fmt.Printf("%d. %s\n", i+1, name)
-	}
-
-	// 🆕 Print numbered Old Active list
-	fmt.Println("\n📂 Old Active (Existed before and was active):")
-	oldActive := append([]string{}, unchanged...)
-	oldActive = append(oldActive, newDisabled...)
-	sort.Strings(oldActive)
-
-	for i, name := range oldActive {
-		fmt.Printf("%d. %s\n", i+1, name)
-	}
-
-	// 🧠 Generate instructions for report update
-generateDeleteInstructions(oldActive, newDisabled, deleted)
-generateAddInstructions(nowActive, totalNew)
+	// Instructions for user to edit reports
+	util.GenerateDeleteInstructions(results.OldActive, results.NewDisabled, results.Deleted)
+	util.GenerateAddInstructions(results.NowActive, results.TotalNew)
 }
