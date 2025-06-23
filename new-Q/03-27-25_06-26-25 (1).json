@@ -1,0 +1,50 @@
+[
+  {
+    "name": "NCX EBIS",
+    "requests": 176770
+  },
+  {
+    "name": "NCX WIB",
+    "requests": 22018
+  },
+  {
+    "name": "MyCarrier",
+    "requests": 6356
+  },
+  {
+    "name": "TOS (TIBS Operating System)",
+    "requests": 2411
+  },
+  {
+    "name": "Frames",
+    "requests": 936
+  },
+  {
+    "name": "mdashboard",
+    "requests": 149
+  },
+  {
+    "name": "Ingenium",
+    "requests": 75
+  },
+  {
+    "name": "WebSelfcare",
+    "requests": 33
+  },
+  {
+    "name": "mycx",
+    "requests": 8
+  },
+  {
+    "name": "SPPD",
+    "requests": 7
+  },
+  {
+    "name": "SAMSNAS",
+    "requests": 7
+  },
+  {
+    "name": "Matic",
+    "requests": 3
+  }
+]

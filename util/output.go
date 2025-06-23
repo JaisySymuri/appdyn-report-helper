@@ -5,7 +5,7 @@ import "fmt"
 func PrintComparisonResults(kind string, oldData, nowData []UnifiedData, r ComparisonResult) {
 	fmt.Printf("🔍 Comparing type: %s\n", kind)
 	fmt.Printf("📦 Total in old-Q: %d\n", len(oldData))
-	fmt.Printf("📦 Total in now-Q: %d\n", len(nowData))
+	fmt.Printf("📦 Total in new-Q: %d\n", len(nowData))
 
 	PrintCategory("📉 New Disabled (was active, now 0)", r.NewDisabled)
 	PrintCategory("📴 Still Disabled (was 0, remains 0)", r.StillDisabled)

@@ -19,6 +19,13 @@ type DBData struct {
 	Executions string `json:"executions"`
 }
 
+type EUMData struct {
+	EUMName     string `json:"name"`
+	Requests int `json:"requests"`
+}
+
+
+
 type UnifiedData struct {
 	Name  string
 	Count int
@@ -51,6 +58,11 @@ func ReadUnifiedJSONFileFromDir(dir string) ([]UnifiedData, string, error) {
 		return convertDBData(dbs), "Database", nil
 	}
 
+	var eums []EUMData
+	if err := json.Unmarshal(data, &eums); err == nil && len(eums) > 0 && eums[0].EUMName != "" {
+		return convertEUMData(eums), "EUM", nil
+	}
+
 	return nil, "", fmt.Errorf("unknown JSON format in %s", filePath)
 }
 
@@ -71,6 +83,18 @@ func convertDBData(dbs []DBData) []UnifiedData {
 	}
 	return result
 }
+
+func convertEUMData(eum []EUMData) []UnifiedData {
+	var result []UnifiedData
+	for _, d := range eum {
+		result = append(result, UnifiedData{
+			Name:  d.EUMName,
+			Count: d.Requests,
+		})
+	}
+	return result
+}
+
 
 func parseNumberWithSuffix(s string) int {
 	s = strings.ToLower(strings.TrimSpace(s))

@@ -12,14 +12,14 @@ func main() {
 		return
 	}
 
-	nowData, kindNow, err := util.ReadUnifiedJSONFileFromDir("now-Q")
+	nowData, kindNow, err := util.ReadUnifiedJSONFileFromDir("new-Q")
 	if err != nil {
-		fmt.Println("❌ Error reading now-Q:", err)
+		fmt.Println("❌ Error reading new-Q:", err)
 		return
 	}
 
 	if kindOld != kindNow {
-		fmt.Printf("❌ Mismatched types: old-Q is %s, now-Q is %s\n", kindOld, kindNow)
+		fmt.Printf("❌ Mismatched types: old-Q is %s, new-Q is %s\n", kindOld, kindNow)
 		return
 	}
 

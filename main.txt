@@ -1,3 +1,12 @@
+//*[@id="appContainer"]/div/div[2]/div[2]/div[2]/ad-view-stack/ad-all-dbs-base/div
+
+#appContainer > div > div.ads-main-container-under-top-menu-bar > div.ads-right-side-content-container > div.ads-right-side-under-location-bar-container.ng-scope > ad-view-stack > ad-all-dbs-base > div
+
+document.querySelector("#appContainer > div > div.ads-main-container-under-top-menu-bar > div.ads-right-side-content-container > div.ads-right-side-under-location-bar-container.ng-scope > ad-view-stack > ad-all-dbs-base > div")
+
+/html/body/ad-downgrade-bootstrap/section/div/div[1]/div/div/div[2]/div[2]/div[2]/ad-view-stack/ad-all-dbs-base/div
+
+
 package main
 
 import (
@@ -176,14 +185,14 @@ func main() {
 		return
 	}
 
-	nowData, kindNow, err := readUnifiedJSONFileFromDir("now-Q")
+	nowData, kindNow, err := readUnifiedJSONFileFromDir("new-Q")
 	if err != nil {
-		fmt.Println("❌ Error reading now-Q:", err)
+		fmt.Println("❌ Error reading new-Q:", err)
 		return
 	}
 
 	if kindOld != kindNow {
-		fmt.Printf("❌ Mismatched types: old-Q is %s, now-Q is %s\n", kindOld, kindNow)
+		fmt.Printf("❌ Mismatched types: old-Q is %s, new-Q is %s\n", kindOld, kindNow)
 		return
 	}
 
@@ -223,7 +232,7 @@ func main() {
 
 	fmt.Printf("🔍 Comparing type: %s\n", kindOld)
 	fmt.Printf("📦 Total in old-Q: %d\n", len(oldData))
-	fmt.Printf("📦 Total in now-Q: %d\n", len(nowData))
+	fmt.Printf("📦 Total in new-Q: %d\n", len(nowData))
 
 	printCategory("📉 New Disabled (was active, now 0)", newDisabled)
 	printCategory("📴 Still Disabled (was 0, remains 0)", stillDisabled)
