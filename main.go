@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"report-compare/util"
+	"github.com/JaisySymuri/appdyn-report-helper/util"
 )
 
 func main() {
